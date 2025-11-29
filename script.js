@@ -40,3 +40,54 @@ function shortenUrl() {
     updateUrlList();
     document.getElementById('longUrl').value = '';
 }
+
+function copyToClipboard() {
+    const shortUrlInput = document.getElementById('shortUrlDisplay');
+    shortUrlInput.select();
+    document.execCommand('copy');
+    
+    const successMsg = document.getElementById('successMsg');
+    successMsg.classList.add('show');
+    setTimeout(() => {
+        successMsg.classList.remove('show');
+    }, 2000);
+}
+
+function updateUrlList() {
+    const urlList = document.getElementById('urlList');
+    const entries = Object.entries(urlDatabase);
+    
+    if (entries.length === 0) {
+        urlList.innerHTML = '';
+        return;
+    }
+
+    let html = '<h2>Your Shortened URLs</h2>';
+    entries.reverse().forEach(([code, original]) => {
+        const shortUrl = baseUrl + code;
+        html += `
+            <div class="url-item">
+                <div class="url-info">
+                    <a href="${original}" target="_blank">${shortUrl}</a>
+                    <div class="original-url">→ ${original}</div>
+                </div>
+            </div>
+        `;
+    });
+    
+    urlList.innerHTML = html;
+}
+
+document.getElementById('longUrl').addEventListener('keypress', function(e) {
+    if (e.key === 'Enter') {
+        shortenUrl();
+    }
+});
+
+window.addEventListener('load', () => {
+    const path = window.location.pathname.substring(1);
+    if (path && urlDatabase[path]) {
+        window.location.href = urlDatabase[path];
+    }
+});
+
