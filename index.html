@@ -14,5 +14,21 @@
             <label for="longUrl">Enter your long URL:</label>
             <input type="url" id="longUrl" placeholder="https://example.com/very/long/url" required>
         </div>
+
+        <button onclick="shortenUrl()">Shorten URL</button>
+        
+        <div class="result" id="result">
+            <strong>Your shortened URL:</strong>
+            <div class="short-url">
+                <input type="text" id="shortUrlDisplay" readonly>
+                <button class="copy-btn" onclick="copyToClipboard()">Copy</button>
+            </div>
+            <div class="success-msg" id="successMsg">✓ Copied to clipboard!</div>
+        </div>
+
+        <div class="url-list" id="urlList"></div>
+    </div>
+
+    <script src="script.js"></script>
 </body>
 </html>
